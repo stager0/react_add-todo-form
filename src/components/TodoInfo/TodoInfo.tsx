@@ -12,7 +12,11 @@ export const TodoInfo = ({ todo }: Props) => {
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <UserInfo user={todo.user} />
+      {todo.user ? (
+        <UserInfo user={todo.user} />
+      ) : (
+        <span className="UserInfo">None</span>
+      )}
     </article>
   );
 };

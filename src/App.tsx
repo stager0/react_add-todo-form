@@ -48,6 +48,9 @@ export const App = () => {
         user: user,
       },
     ]);
+
+    setTitle('');
+    setUser(undefined);
   };
 
   return (
@@ -60,8 +63,10 @@ export const App = () => {
         onSubmit={event => preventSubmit(event)}
       >
         <div className="field">
+          <label htmlFor="title">Title</label>
           <input
             type="text"
+            name="title"
             data-cy="titleInput"
             value={title}
             onChange={event => {
@@ -73,12 +78,14 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="userSelect">Select User</label>
           <select
             data-cy="userSelect"
+            name="userSelect"
             onChange={event => {
               const selectedId = Number(event.target.value);
               const selectedUser = usersFromServer.find(
-                user_ => user_.id === selectedId,
+                currentUser => currentUser.id === selectedId,
               );
 
               setUser(selectedUser);

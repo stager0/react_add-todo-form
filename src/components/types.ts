@@ -4,6 +4,7 @@ type Todo = {
   title: string;
   completed: boolean;
   userId: number;
+  user?: User;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

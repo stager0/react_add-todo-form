@@ -10,7 +10,12 @@ function getUserById(userId: number): User | undefined {
 }
 
 export const App = () => {
-  const [todos, setTodos] = useState(todosFromServer);
+  const [todos, setTodos] = useState<Todo[]>(
+    todosFromServer.map(todo => ({
+      ...todo,
+      user: getUserById(todo.userId),
+    })),
+  );
   const [title, setTitle] = useState('');
   const [user, setUser] = useState<User>();
   const [errorTitle, setErrorTitle] = useState(false);
@@ -22,18 +27,6 @@ export const App = () => {
 
   const preventSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    if (title.length < 1) {
-      setErrorTitle(true);
-    } else {
-      setErrorTitle(false);
-    }
-
-    if (!user) {
-      setUserError(true);
-    } else {
-      setUserError(false);
-    }
 
     const titleError = title.length < 1;
     const userError = !user;
@@ -52,6 +45,7 @@ export const App = () => {
         title,
         completed: false,
         userId: user?.id || 0,
+        user: user,
       },
     ]);
   };
@@ -84,7 +78,7 @@ export const App = () => {
             onChange={event => {
               const selectedId = Number(event.target.value);
               const selectedUser = usersFromServer.find(
-                u => u.id === selectedId,
+                user_ => user_.id === selectedId,
               );
 
               setUser(selectedUser);
@@ -114,7 +108,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={todos} getUserFunc={value => getUserById(value)} />
+      <TodoList todos={todos} />
     </div>
   );
 };

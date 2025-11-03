@@ -1,20 +1,18 @@
+import { UserInfo } from '../UserInfo';
+
 interface Props {
   todo: Todo;
-  user: User | undefined;
 }
 
-export const TodoInfo = ({ todo, user }: Props) => {
+export const TodoInfo = ({ todo }: Props) => {
   return (
-    <article data-id={todo.id} className="TodoInfo">
+    <article
+      data-id={todo.id}
+      className={`TodoInfo ${todo.completed ? 'TodoInfo--completed' : ''}`}
+    >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      {user ? (
-        <a className="UserInfo" href={`mailto:${user.email}`}>
-          {user.email}
-        </a>
-      ) : (
-        <span className="UserInfo">none</span>
-      )}
+      <UserInfo user={todo.user} />
     </article>
   );
 };
